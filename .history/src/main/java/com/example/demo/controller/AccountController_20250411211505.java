@@ -22,10 +22,10 @@ public class AccountController {
         this.repo = repo;
     }
 
-  @GetMapping("/getAll")
-  @PreAuthorize("hasRole('USER')")
-  public List<User> getAll() {
-      return repo.findAll();
-  }
+    @GetMapping("/getAll")
+  @PreAuthorize("hasRole('ADMIN')")
+    public List<User> getAll() {
+       return repo.findAll();
+    }
 
 }

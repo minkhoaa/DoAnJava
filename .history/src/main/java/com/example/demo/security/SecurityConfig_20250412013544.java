@@ -48,7 +48,7 @@ public class SecurityConfig {
         return http
             .csrf(customer -> customer.disable())
             .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/auth/**").permitAll()
+                        // .requestMatchers("/api/auth/**").permitAll()
             .anyRequest().permitAll())
             .httpBasic(Customizer.withDefaults())
             .sessionManagement(session ->
