@@ -60,7 +60,8 @@ public class NhanVienController {
     public ResponseEntity<ApiResponse> updateNhanVien(@PathVariable Long id, @RequestBody NhanVienDto nhanVienDto) {
         return ResponseEntity.ok(nhanVienService.updatenhanVien(id, nhanVienDto));
     }
-    @DeleteMapping("/deleteNhanvien/{id}")    
+
+    @DeleteMapping("/deleteNhanvien/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> deleteNhanVien(@PathVariable Long id) {
         return ResponseEntity.ok(nhanVienService.deleteNhanVien(id));
