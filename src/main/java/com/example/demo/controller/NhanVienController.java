@@ -43,25 +43,25 @@ public class NhanVienController {
     }
     
     @GetMapping("/getByID/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+   // @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> getNhanVienByID(@PathVariable Long id) {
         return ResponseEntity.ok(nhanVienService.getNhanVienByID(id));
     }
 
     @PostMapping("/addnhanvien")
-    @PreAuthorize("hasRole('ADMIN')")
+   // @PreAuthorize("hasRole('ADMIN')")
 
     public ResponseEntity<ApiResponse> addNhanVien(@RequestBody NhanVienDto nhanVienDto) {
         return ResponseEntity.ok(nhanVienService.addNhanVien(nhanVienDto));
     }
 
     @PutMapping("/updatenhanvien/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> updateNhanVien(@PathVariable Long id, @RequestBody NhanVienDto nhanVienDto) {
         return ResponseEntity.ok(nhanVienService.updatenhanVien(id, nhanVienDto));
     }
     @DeleteMapping("/deleteNhanvien/{id}")    
-    @PreAuthorize("hasRole('ADMIN')")
+   // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> deleteNhanVien(@PathVariable Long id) {
         return ResponseEntity.ok(nhanVienService.deleteNhanVien(id));
     }
