@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.util.Locale;
+
 
 @RestController
 @RequestMapping("/api/chamcong")
@@ -17,8 +20,8 @@ public class ChamCongController {
     private ChamCongService chamCongService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<ApiResponse> getAllChamCong() {
-        return  ResponseEntity.ok(chamCongService.getAllChamCong());
+    public ResponseEntity<ApiResponse> getAllChamCong(LocalDate ngay, Long employeeId) {
+        return  ResponseEntity.ok(chamCongService.getAllChamCong(ngay, employeeId));
     }
 
 

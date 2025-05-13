@@ -59,7 +59,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().permitAll())
                 .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(Customizer.withDefaults())
             .sessionManagement(session ->
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

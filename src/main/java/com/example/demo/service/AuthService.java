@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.example.demo.dto.request.TokenRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -61,7 +62,7 @@ public class AuthService {
         return new AuthenticationResponse(token);
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse login(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -72,5 +73,44 @@ public class AuthService {
         String token = jwtService.generateToken(new CustomUserDetails(user));
         return new AuthenticationResponse(token);
     }
-    
+    public AuthenticationResponse authenticate(TokenRequest tokenRequest) {
+        String token = tokenRequest.getToken();
+
+        if (token == null) {
+            throw new RuntimeException("Token is required");
+        }
+
+        // Xử lý token và thêm "Bearer " nếu chưa có
+        String processedToken = token.startsWith("Bearer ") ? token : "Bearer " + token;
+
+        String username;
+        try {
+            // Trích xuất username từ token gốc (không có Bearer)
+            String actualToken = token.startsWith("Bearer ") ? token.substring(7) : token;
+            username = jwtService.extractUsername(actualToken);
+        } catch (Exception e) {
+            throw new RuntimeException("Error extracting username from token: " + e.getMessage());
+        }
+
+        // Kiểm tra xem người dùng có tồn tại trong cơ sở dữ liệu không
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Tạo đối tượng CustomUserDetails từ thông tin người dùng
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+
+        // Kiểm tra tính hợp lệ của token (so sánh username và kiểm tra token hết hạn)
+        boolean isValid = jwtService.isTokenValid(
+                token.startsWith("Bearer ") ? token.substring(7) : token,
+                userDetails
+        );
+
+        if (!isValid) {
+            throw new RuntimeException("Invalid token or token has expired");
+        }
+
+        // Trả về AuthenticationResponse với token đã được xử lý
+        return new AuthenticationResponse(processedToken);
+    }
+
 }

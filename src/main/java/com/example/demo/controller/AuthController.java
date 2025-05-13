@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import com.example.demo.dto.request.TokenRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -41,7 +43,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(authService.authenticate(request));
+        return ResponseEntity.ok(authService.login(request));
     }
 
     @GetMapping("/getAll")
@@ -49,5 +51,14 @@ public class AuthController {
     public List<User> getAll() {
         return user.findAll();
     }
-    
+
+    @PostMapping("/authentication")
+    public ResponseEntity<AuthenticationResponse> authentication(@RequestBody TokenRequest tokenRequest) {
+        var result = authService.authenticate(tokenRequest);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result);
+    }
+
 }

@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -23,20 +25,29 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class JwtService {
 
-    private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor("Jtqh00v718vEzn1EJ4zshXjLyZWSCUfZ".getBytes(StandardCharsets.UTF_8));
-
+    @Value("${jwt.secret}")
+    private String secret;
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
-
+    private SecretKey getSigningKey() {
+        if (secret == null || secret.trim().isEmpty()) {
+            throw new IllegalStateException("JWT secret key is not configured");
+        }
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
-
+    @PostConstruct
+    public void init() {
+        System.out.println("Loaded JWT secret: " + secret);
+    }
     private Claims extractAllClaims(String token) {
+        var secret = getSigningKey();
         return Jwts.parserBuilder()
-            .setSigningKey(SECRET_KEY)
+            .setSigningKey(getSigningKey())
             .build()
             .parseClaimsJws(token)
             .getBody();
@@ -64,7 +75,7 @@ public class JwtService {
             .setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) 
-            .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
+            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
             .compact();
     }
 }
