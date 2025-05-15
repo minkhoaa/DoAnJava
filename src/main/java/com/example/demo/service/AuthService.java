@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.example.demo.dto.request.TokenRequest;
+import com.example.demo.dto.response.UserResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -73,7 +74,7 @@ public class AuthService {
         String token = jwtService.generateToken(new CustomUserDetails(user));
         return new AuthenticationResponse(token);
     }
-    public AuthenticationResponse authenticate(TokenRequest tokenRequest) {
+    public UserResponse authenticate(TokenRequest tokenRequest) {
         String token = tokenRequest.getToken();
 
         if (token == null) {
@@ -110,7 +111,7 @@ public class AuthService {
         }
 
         // Trả về AuthenticationResponse với token đã được xử lý
-        return new AuthenticationResponse(processedToken);
+        return new UserResponse(user.getUserid(),user.getUsername(),user.getEmail() );
     }
 
 }

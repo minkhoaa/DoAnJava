@@ -5,10 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.request.ChamCongDto;
 import com.example.demo.dto.response.ApiResponse;
-import com.example.demo.entity.BangCong;
 import com.example.demo.entity.ChamCong;
 import com.example.demo.entity.NhanVien;
-import com.example.demo.repository.BangCongRepository;
 import com.example.demo.repository.ChamCongRepository;
 import com.example.demo.repository.NhanVienRepository;
 

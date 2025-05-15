@@ -36,6 +36,5 @@ public class ChamCong {
     @Column(name = "\"sogiolam\"")
     private Double soGioLam;
 
-    @ManyToMany(mappedBy = "chamCongs") // Quan hệ nhiều-nhiều với BangCong
-    private Set<BangCong> bangCongs;
+
 }

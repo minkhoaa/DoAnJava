@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.example.demo.dto.request.TokenRequest;
+import com.example.demo.dto.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -53,7 +54,7 @@ public class AuthController {
     }
 
     @PostMapping("/authentication")
-    public ResponseEntity<AuthenticationResponse> authentication(@RequestBody TokenRequest tokenRequest) {
+    public ResponseEntity<UserResponse> authentication(@RequestBody TokenRequest tokenRequest) {
         var result = authService.authenticate(tokenRequest);
         if (result == null) {
             return ResponseEntity.notFound().build();

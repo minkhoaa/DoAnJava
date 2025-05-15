@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.response.ApiResponse;
-import com.example.demo.entity.BangCong;
 import com.example.demo.entity.LoaiCong;
-import com.example.demo.repository.BangCongRepository;
 import com.example.demo.repository.LoaiCongRepository;
 
 import java.util.Optional;

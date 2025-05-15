@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.response.ApiResponse;
-import com.example.demo.entity.BangCong;
 import com.example.demo.service.BangCongService;
 
 import java.util.Set;
