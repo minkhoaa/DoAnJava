@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.request.CheckInDto;
-import com.example.demo.dto.request.CheckOutDto;
+import com.example.demo.dto.request.CheckIn_OutDto;
+import com.example.demo.dto.request.ModifiedCheckIn_OutDto;
 import com.example.demo.dto.request.TokenRequest;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.UserResponse;
@@ -13,12 +13,15 @@ import com.example.demo.repository.LoaiCongRepository;
 import com.example.demo.repository.NhanVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 @Service
 public class ChamCongService  {
@@ -48,9 +51,9 @@ public class ChamCongService  {
 			return new ApiResponse("", chamCongRepository.findAll());
 	}
 
-	public ApiResponse checkIn(CheckInDto dto) {
+	public ApiResponse checkIn(CheckIn_OutDto dto) {
 		UserResponse authen = authService.authenticate(new TokenRequest(dto.getToken()));
-		if (authen == null) return new ApiResponse("Unauthorized", null);
+		if (authen == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
 
 		NhanVien nhanVien = nhanVienRepository.findById(dto.getEmployeeId()).orElse(null);
 		if (nhanVien == null) return new ApiResponse("Not Found", null);
@@ -68,9 +71,9 @@ public class ChamCongService  {
 		chamCongRepository.save(chamCong);
 		return new ApiResponse("Check-in thành công", chamCong);
 	}
-	public ApiResponse checkOut(CheckOutDto dto) {
+	public ApiResponse checkOut(CheckIn_OutDto dto) {
 		UserResponse authen = authService.authenticate(new TokenRequest(dto.getToken()));
-		if (authen == null) return new ApiResponse("Unauthorized", null);
+		if (authen == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
 
 		LocalDate today = LocalDate.now();
 		ChamCong chamCong = chamCongRepository.findByNgayAndEmployeeId(today, dto.getEmployeeId()).stream().findFirst().orElse(null);
@@ -96,7 +99,17 @@ public class ChamCongService  {
 
 		return new ApiResponse("Check-out thành công", chamCong);
 	}
-
+	public ApiResponse ModifierChamCong(ModifiedCheckIn_OutDto dto) {
+		UserResponse authen = authService.authenticate(new TokenRequest(dto.getToken()));
+		if (authen == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+		Optional<ChamCong> chamCongOptional = chamCongRepository.findById(dto.getId());
+		if (!chamCongOptional.isPresent()) return new ApiResponse("Not Found", null);
+		ChamCong chamCong = chamCongOptional.get();
+		chamCong.setGioVao(dto.getGioVao());
+		chamCong.setGioRa(dto.getGioRa());
+		chamCongRepository.save(chamCong);
+		return new ApiResponse("Success", chamCong);
+	}
 
 
 

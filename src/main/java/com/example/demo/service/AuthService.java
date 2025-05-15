@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.example.demo.dto.request.TokenRequest;
 import com.example.demo.dto.response.UserResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +24,7 @@ import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -78,7 +80,7 @@ public class AuthService {
         String token = tokenRequest.getToken();
 
         if (token == null) {
-            throw new RuntimeException("Token is required");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token is missing");
         }
 
         // Xử lý token và thêm "Bearer " nếu chưa có
@@ -90,12 +92,12 @@ public class AuthService {
             String actualToken = token.startsWith("Bearer ") ? token.substring(7) : token;
             username = jwtService.extractUsername(actualToken);
         } catch (Exception e) {
-            throw new RuntimeException("Error extracting username from token: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", e);
         }
 
         // Kiểm tra xem người dùng có tồn tại trong cơ sở dữ liệu không
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
 
         // Tạo đối tượng CustomUserDetails từ thông tin người dùng
         CustomUserDetails userDetails = new CustomUserDetails(user);
@@ -107,7 +109,7 @@ public class AuthService {
         );
 
         if (!isValid) {
-            throw new RuntimeException("Invalid token or token has expired");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or expired token");
         }
 
         // Trả về AuthenticationResponse với token đã được xử lý

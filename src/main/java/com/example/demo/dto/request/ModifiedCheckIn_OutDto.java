@@ -11,15 +11,20 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CheckOutDto {
+public class ModifiedCheckIn_OutDto {
     public String token;
+    public Long id;
     public Long employeeId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     public LocalDate timeStamp;
 
     @Schema(type = "string", example = "08:00:00", format = "time")
     @JsonFormat(pattern = "HH:mm:ss")
+    private LocalTime gioVao;
+    @Schema(type = "string", example = "08:00:00", format = "time")
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime gioRa;
+
 
 
 }
