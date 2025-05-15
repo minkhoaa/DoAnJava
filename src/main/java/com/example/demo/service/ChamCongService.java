@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.request.CheckInDto;
+import com.example.demo.dto.request.CheckOutDto;
 import com.example.demo.dto.request.TokenRequest;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.UserResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Service
 public class ChamCongService  {
@@ -46,19 +48,40 @@ public class ChamCongService  {
 			return new ApiResponse("", chamCongRepository.findAll());
 	}
 
-	public ApiResponse checkIn(CheckInDto checkInDto) {
-		UserResponse authen = authService.authenticate(new TokenRequest(checkInDto.token));
-
+	public ApiResponse checkIn(CheckInDto dto) {
+		UserResponse authen = authService.authenticate(new TokenRequest(dto.getToken()));
 		if (authen == null) return new ApiResponse("Unauthorized", null);
 
-		NhanVien nhanVien = nhanVienRepository.findById(checkInDto.getEmployeeId()).orElse(null);
+		NhanVien nhanVien = nhanVienRepository.findById(dto.getEmployeeId()).orElse(null);
 		if (nhanVien == null) return new ApiResponse("Not Found", null);
-		double sogiolam = Duration.between(checkInDto.getGioVao(), checkInDto.getGioRa()).toMinutes() / 60.0;
+
+		LocalDate today = LocalDate.now();
+		if (!chamCongRepository.findByNgayAndEmployeeId(today, dto.getEmployeeId()).isEmpty()) {
+			return new ApiResponse("Đã check-in hôm nay", null);
+		}
+
 		ChamCong chamCong = new ChamCong();
-		chamCong.setEmployeeId(checkInDto.getEmployeeId());
-		chamCong.setNgay(checkInDto.getTimeStamp());
-		chamCong.setGioVao(checkInDto.getGioVao());
-		chamCong.setGioRa(checkInDto.getGioRa());
+		chamCong.setEmployeeId(dto.getEmployeeId());
+		chamCong.setNgay(today);
+		chamCong.setGioVao(LocalTime.now());
+
+		chamCongRepository.save(chamCong);
+		return new ApiResponse("Check-in thành công", chamCong);
+	}
+	public ApiResponse checkOut(CheckOutDto dto) {
+		UserResponse authen = authService.authenticate(new TokenRequest(dto.getToken()));
+		if (authen == null) return new ApiResponse("Unauthorized", null);
+
+		LocalDate today = LocalDate.now();
+		ChamCong chamCong = chamCongRepository.findByNgayAndEmployeeId(today, dto.getEmployeeId()).stream().findFirst().orElse(null);
+
+		if (chamCong == null) return new ApiResponse("Chưa check-in", null);
+		if (chamCong.getGioRa() != null) return new ApiResponse("Đã check-out rồi", null);
+
+		LocalTime gioRa = LocalTime.now();
+		chamCong.setGioRa(gioRa);
+
+		double sogiolam = Duration.between(chamCong.getGioVao(), gioRa).toMinutes() / 60.0;
 		chamCong.setSoGioLam(sogiolam);
 		chamCongRepository.save(chamCong);
 
@@ -71,9 +94,10 @@ public class ChamCongService  {
 		loaiCong.setHeSo(heso);
 		loaiCongRepository.save(loaiCong);
 
-		return new ApiResponse("Success", chamCong);
-
+		return new ApiResponse("Check-out thành công", chamCong);
 	}
+
+
 
 
 }

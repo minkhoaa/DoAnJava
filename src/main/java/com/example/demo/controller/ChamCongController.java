@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.request.CheckInDto;
+import com.example.demo.dto.request.CheckOutDto;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.service.ChamCongService;
 import lombok.Getter;
@@ -32,5 +33,12 @@ public class ChamCongController {
                 .body(new ApiResponse("Unauthorized", null));
         return ResponseEntity.ok(result);
 
+    }
+    @PostMapping("/checkOut")
+    public ResponseEntity<ApiResponse> checkOut(@RequestBody CheckOutDto checkOutDto) {
+        var result = chamCongService.checkOut(checkOutDto);
+        if (result==null)  return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ApiResponse("Unauthorized", null));
+        return ResponseEntity.ok(result);
     }
 }
