@@ -19,16 +19,16 @@ public class TuyenDung {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "hoten", length = 10)
+    @Column(name = "hoten")
     private String hoten;
 
     @Column(name = "ngaysinh")
     private LocalDate ngaysinh;
 
-    @Column(name = "dienthoai", length = 15)
+    @Column(name = "dienthoai")
     private String dienthoai;
 
-    @Column(name = "email", length = 10)
+    @Column(name = "email")
     private String email;
 
     @Column(name = "vitri", length = 100)
