@@ -3,7 +3,14 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.entity.ChucVu;
+import com.example.demo.entity.PhongBan;
+import com.example.demo.entity.TrinhDo;
+import com.example.demo.repository.ChucVuRepository;
+import com.example.demo.repository.PhongBanRepository;
+import com.example.demo.repository.TrinhDoRepository;
 import org.aspectj.internal.lang.annotation.ajcPrivileged;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.example.demo.controller.NhanVienController;
@@ -19,6 +26,16 @@ import jakarta.websocket.server.ServerEndpoint;
 public class NhanVienService {
 
     private final AuthService authService;
+    @Autowired
+    private ChucVuRepository chucVuRepository;
+
+    @Autowired
+    private PhongBanRepository phongBanRepository;
+
+    @Autowired
+    private TrinhDoRepository trinhDoRepository;
+
+    @Autowired
     private NhanVienRepository nhanVienRepository;
 
     public NhanVienService(NhanVienRepository nhanVienRepository, AuthService authService) {
@@ -40,10 +57,10 @@ public class NhanVienService {
         Optional<NhanVien> nhanVien = nhanVienRepository.findById(id);
         return nhanVien.isPresent() ? new ApiResponse("Success", nhanVien.get()) : new ApiResponse("failed", null);
     }
-        
+
     public ApiResponse addNhanVien(NhanVienDto nhanVienDto) {
-      
         NhanVien nhanVien = new NhanVien();
+
         nhanVien.setHoten(nhanVienDto.getHoten());
         nhanVien.setGioitinh(nhanVienDto.getGioitinh());
         nhanVien.setNgaysinh(nhanVienDto.getNgaysinh());
@@ -51,13 +68,39 @@ public class NhanVienService {
         nhanVien.setCccd(nhanVienDto.getCccd());
         nhanVien.setDiachi(nhanVienDto.getDiachi());
         nhanVien.setHinhanh(nhanVienDto.getHinhanh());
-        nhanVien.setIdpb(nhanVienDto.getIdpb());
-        nhanVien.setIdcv(nhanVienDto.getIdcv());
-        nhanVien.setIdtd(nhanVienDto.getIdtd());
+
+        // Gán chức vụ nếu có idcv
+        if (nhanVienDto.getIdcv() != null) {
+            ChucVu chucVu = chucVuRepository.findById(nhanVienDto.getIdcv())
+                    .orElseThrow(() -> new RuntimeException("Chức vụ không tồn tại"));
+            nhanVien.setChucVu(chucVu);
+        } else {
+            nhanVien.setChucVu(null); // Không có chức vụ
+        }
+
+        // Gán phòng ban nếu có idpb
+        if (nhanVienDto.getIdpb() != null) {
+            PhongBan phongBan = phongBanRepository.findById(nhanVienDto.getIdpb())
+                    .orElseThrow(() -> new RuntimeException("Phòng ban không tồn tại"));
+            nhanVien.setPhongBan(phongBan);
+        } else {
+            nhanVien.setPhongBan(null);
+        }
+
+        // Gán trình độ nếu có idtd
+        if (nhanVienDto.getIdtd() != null) {
+            TrinhDo trinhDo = trinhDoRepository.findById(nhanVienDto.getIdtd())
+                    .orElseThrow(() -> new RuntimeException("Trình độ không tồn tại"));
+            nhanVien.setTrinhDo(trinhDo);
+        } else {
+            nhanVien.setTrinhDo(null);
+        }
+
         nhanVienRepository.save(nhanVien);
+
         return new ApiResponse("Success", nhanVien);
     }
-    
+
     public ApiResponse updatenhanVien(Long id, NhanVienDto nhanVienDto) {
         Optional<NhanVien> nhanVienOptional = nhanVienRepository.findById(id);
         if (!nhanVienOptional.isPresent())
@@ -85,14 +128,24 @@ public class NhanVienService {
         if (nhanVienDto.getHinhanh() != null) {
             nhanVien.setHinhanh(nhanVienDto.getHinhanh());
         }
-        if (nhanVienDto.getIdpb() != null) {
-            nhanVien.setIdpb(nhanVienDto.getIdpb());
-        }
         if (nhanVienDto.getIdcv() != null) {
-            nhanVien.setIdcv(nhanVienDto.getIdcv());
+            ChucVu chucVu = chucVuRepository.findById(nhanVienDto.getIdcv())
+                    .orElse(null); // hoặc throw nếu muốn báo lỗi
+            nhanVien.setChucVu(chucVu);
         }
+
+        // Mapping PhongBan
+        if (nhanVienDto.getIdpb() != null) {
+            PhongBan phongBan = phongBanRepository.findById(nhanVienDto.getIdpb())
+                    .orElse(null);
+            nhanVien.setPhongBan(phongBan);
+        }
+
+        // Mapping TrinhDo
         if (nhanVienDto.getIdtd() != null) {
-            nhanVien.setIdtd(nhanVienDto.getIdtd());
+            TrinhDo trinhDo = trinhDoRepository.findById(nhanVienDto.getIdtd())
+                    .orElse(null);
+            nhanVien.setTrinhDo(trinhDo);
         }
 
         nhanVienRepository.save(nhanVien);

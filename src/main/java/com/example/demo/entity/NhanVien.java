@@ -2,12 +2,7 @@ package com.example.demo.entity;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,12 +40,15 @@ public class NhanVien {
     @Column(name = "\"hinhanh\"") 
     private String hinhanh;
 
-    @Column(name = "\"idpb\"") 
-    private Long idpb;
+    @ManyToOne
+    @JoinColumn(name = "\"idcv\"", referencedColumnName = "\"idcv\"", nullable = true)
+    private ChucVu chucVu;
 
-    @Column(name = "\"idcv\"") 
-    private Long idcv;
+    @ManyToOne
+    @JoinColumn(name = "\"idpb\"", referencedColumnName = "\"idpb\"", nullable = true)
+    private PhongBan phongBan;
 
-    @Column(name = "\"idtd\"") 
-    private Long idtd;
+    @ManyToOne
+    @JoinColumn(name = "\"idtd\"", referencedColumnName = "\"idtd\"", nullable = true)
+    private TrinhDo trinhDo;
 }
