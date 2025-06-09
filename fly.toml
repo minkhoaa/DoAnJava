@@ -3,9 +3,9 @@ app = "doanjava"  # 🔁 Tên app của bạn (chỉnh nếu khác)
 primary_region = "sin"  # 👉 Vùng deploy chính: Singapore (bạn có thể đổi thành 'hkg', 'lax', v.v.)
 
 [build]
-builder = "paketobuildpacks/builder:base"  # ✅ Dùng Buildpacks để build app Java (không cần Dockerfile)
+# ✅ Dùng Buildpacks để build app Java (không cần Dockerfile)
 # Hoặc nếu bạn dùng Dockerfile:
-# dockerfile = "Dockerfile"
+dockerfile = "Dockerfile"
 
 [env]
 PORT = "8080"  # Spring Boot mặc định chạy ở port này
