@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for doanjava-nameless-firefly-7366 on 2025-06-10T01:11:04+07:00
+# fly.toml app configuration file generated for doanjava-restless-shadow-8909 on 2025-06-10T01:26:10+07:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'doanjava-nameless-firefly-7366'
-primary_region = 'sin'
+app = 'doanjava-restless-shadow-8909'
+primary_region = 'hkg'
 
 [build]
 
