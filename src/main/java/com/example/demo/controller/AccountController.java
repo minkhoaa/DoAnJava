@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RestController
 @RequestMapping("/account")
 public class AccountController {
-    private UserRepository repo;
+    private final UserRepository repo;
     
     public AccountController(UserRepository repo) {
         this.repo = repo;

@@ -1,24 +1,22 @@
-app = "doanjava"  # 🔁 Tên app của bạn (chỉnh nếu khác)
+# fly.toml app configuration file generated for doanjava-nameless-firefly-7366 on 2025-06-10T01:11:04+07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-primary_region = "sin"  # 👉 Vùng deploy chính: Singapore (bạn có thể đổi thành 'hkg', 'lax', v.v.)
+app = 'doanjava-nameless-firefly-7366'
+primary_region = 'sin'
 
 [build]
-# ✅ Dùng Buildpacks để build app Java (không cần Dockerfile)
-# Hoặc nếu bạn dùng Dockerfile:
-dockerfile = "Dockerfile"
-
-[env]
-PORT = "8080"  # Spring Boot mặc định chạy ở port này
 
 [http_service]
-internal_port = 8080
-force_https = true
-auto_stop_machines = true
-auto_start_machines = true
-min_machines_running = 0
-processes = ["app"]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [[vm]]
-size = "shared-cpu-1x"   # Gói máy ảo rẻ nhất (có thể đổi thành 'performance-1x')
-memory = 512             # Spring Boot thường cần ít nhất 512MB RAM
-
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
