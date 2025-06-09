@@ -66,9 +66,15 @@
             });
 
                     // 🟡 Convert thành GrantedAuthority
-                    var authorities = roles.stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
-                        .collect(Collectors.toList());
+                     List<GrantedAuthority> authorities = roles.stream()
+                             .map(role -> {
+                                 String formattedRole = role.toUpperCase(); // "ADMIN"
+                                 if (!formattedRole.startsWith("ROLE_")) {
+                                     formattedRole = "ROLE_" + formattedRole;
+                                 }
+                                 return new SimpleGrantedAuthority(formattedRole);
+                             })
+                             .collect(Collectors.toList());
 
                     // 🔐 Tạo token auth kèm roles
                     var authToken = new UsernamePasswordAuthenticationToken(

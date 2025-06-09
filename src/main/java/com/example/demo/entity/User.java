@@ -14,15 +14,15 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "\"users\"") // Ánh xạ bảng "users"
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,43 +50,5 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 
-    public Long getUserid() {
-        return userid;
-    }
-
-    public void setUserid(Long userid) {
-        this.userid = userid;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPasswordhash() {
-        return passwordhash;
-    }
-
-    public void setPasswordhash(String passwordhash) {
-        this.passwordhash = passwordhash;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

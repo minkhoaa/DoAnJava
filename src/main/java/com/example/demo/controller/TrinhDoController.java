@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecuritySchemes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.request.TrinhDoDto;
@@ -14,6 +17,9 @@ public class TrinhDoController {
 
     @Autowired
     private TrinhDoService trinhDoService;
+
+    // cấp quyền
+    @SecurityRequirement(name="bearerAuth")
 
     @GetMapping("/getAll")
     public ResponseEntity<ApiResponse> getAllTrinhDo() {

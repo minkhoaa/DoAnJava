@@ -28,15 +28,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = repo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPasswordhash(),
-                getAuthorities(user) 
-        );
+        return new CustomUserDetails(user);
     }
       private Collection<? extends GrantedAuthority> getAuthorities(User user) {
         return user.getRoles().stream()

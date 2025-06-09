@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
 
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,8 +26,14 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class JwtService {
 
+    private final ListableBeanFactory listableBeanFactory;
     @Value("${jwt.secret}")
     private String secret;
+
+    public JwtService(ListableBeanFactory listableBeanFactory) {
+        this.listableBeanFactory = listableBeanFactory;
+    }
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -53,7 +60,7 @@ public class JwtService {
             .getBody();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, CustomUserDetails  userDetails) {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
@@ -62,14 +69,15 @@ public class JwtService {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(CustomUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         List<String> roles = userDetails.getAuthorities()
         .stream()
-        .map(GrantedAuthority::getAuthority)
+        .map(role -> "ROLE_" + role.toString().toUpperCase())
                 .collect(Collectors.toList());
         claims.put("roles", roles);
-
+        claims.put("username", userDetails.getUsername());
+        claims.put("userId", userDetails.getId());
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(userDetails.getUsername())

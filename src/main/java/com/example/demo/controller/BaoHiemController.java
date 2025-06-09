@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.request.BaoHiemDto;
@@ -14,7 +16,7 @@ public class BaoHiemController {
 
     @Autowired
     private BaoHiemService baoHiemService;
-
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/getAll")
     public ResponseEntity<ApiResponse> getAllBaoHiem() {
         return ResponseEntity.ok(baoHiemService.getAllBaoHiem());
@@ -26,6 +28,7 @@ public class BaoHiemController {
     }
 
     @PostMapping("/addBaoHiem")
+
     public ResponseEntity<ApiResponse> addBaoHiem(@RequestBody BaoHiemDto baoHiemDto) {
         return ResponseEntity.ok(baoHiemService.addBaoHiem(baoHiemDto));
     }
