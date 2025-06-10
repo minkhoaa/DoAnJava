@@ -29,11 +29,11 @@ public class TrinhDoService {
     }
 
     public ApiResponse addTrinhDo(TrinhDoDto trinhDoDto) {
-        if (trinhDoDto.getName() == null)
+        if (trinhDoDto.getTentd() == null)
             return new ApiResponse("failed", "Tên trình độ không được để trống");
 
         TrinhDo trinhDo = new TrinhDo();
-        trinhDo.setName(trinhDoDto.getName());
+        trinhDo.setName(trinhDoDto.getTentd());
         return new ApiResponse("Success", trinhDoRepository.save(trinhDo));
     }
 
@@ -43,8 +43,8 @@ public class TrinhDoService {
             return new ApiResponse("failed", "Không tồn tại trình độ này");
 
         TrinhDo trinhDo = trinhDoOptional.get();
-        if (trinhDoDto.getName() != null) {
-            trinhDo.setName(trinhDoDto.getName());
+        if (trinhDoDto.getTentd() != null) {
+            trinhDo.setName(trinhDoDto.getTentd());
         }
 
         return new ApiResponse("Success", trinhDoRepository.save(trinhDo));

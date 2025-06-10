@@ -35,12 +35,12 @@ public class PhongBanService {
     }
 
     public ApiResponse addPhongBan(PhongBanDto phongBanDto) {
-        if (phongBanDto.getName() == null)
+        if (phongBanDto.getTenpb() == null)
             return new ApiResponse("failed", null);
         PhongBan phongBan = new PhongBan();
 
         try {
-            phongBan.setName(phongBanDto.getName());
+            phongBan.setName(phongBanDto.getTenpb());
             return new ApiResponse("Success", phongBanRepository.save(phongBan));
         } catch (Exception ex) {
             return new ApiResponse("failed", ex.getMessage());

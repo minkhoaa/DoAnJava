@@ -1,15 +1,13 @@
 package com.example.demo.dto.request;
 
+import lombok.*;
+
+@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TrinhDoDto {
-
-    private String name;
-
-    // Getter và Setter
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private Long idtd;
+    private String tentd;
 }

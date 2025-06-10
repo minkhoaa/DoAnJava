@@ -32,11 +32,11 @@ public class ChucVuService {
 
     // Thêm mới chức vụ
     public ApiResponse addChucVu(ChucVuDto chucVuDto) {
-        if (chucVuDto.getName() == null)
+        if (chucVuDto.getTencv() == null)
             return new ApiResponse("failed", "Tên chức vụ không được để trống");
 
         ChucVu chucVu = new ChucVu();
-        chucVu.setName(chucVuDto.getName());
+        chucVu.setName(chucVuDto.getTencv());
         return new ApiResponse("Success", chucVuRepository.save(chucVu));
     }
 
@@ -47,8 +47,8 @@ public class ChucVuService {
             return new ApiResponse("failed", "Không tồn tại chức vụ này");
 
         ChucVu chucVu = chucVuOptional.get();
-        if (chucVuDto.getName() != null) {
-            chucVu.setName(chucVuDto.getName());
+        if (chucVuDto.getTencv() != null) {
+            chucVu.setName(chucVuDto.getTencv());
         }
 
         return new ApiResponse("Success", chucVuRepository.save(chucVu));

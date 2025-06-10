@@ -1,15 +1,14 @@
 package com.example.demo.dto.request;
 
 import jakarta.persistence.Column;
+import lombok.*;
 
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PhongBanDto {
-
-  
-    private String name;
-    public String getName() {
-        return this.name;
-    }
-    public void setName(String name) {
-        this.name = name; 
-    }
+    private Long idpb;
+    private String tenpb;
 }

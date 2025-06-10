@@ -1,19 +1,11 @@
 # flyctl launch added from .gitignore
 **\HELP.md
 
-**\target
-**\*.jar
+
 
 
 ### STS ###
-**\.apt_generated
-**\.classpath
-**\.factorypath
-**\.project
-**\.settings
-**\.springBeans
-**\.sts4-cache
-**\application.properties
+
 
 **\application.yml
 **\application-dev.properties
