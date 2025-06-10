@@ -1,38 +1,36 @@
 # flyctl launch added from .gitignore
-**\HELP.md
-
-
-
+**/HELP.md
 
 ### STS ###
+**/application.yml
+**/application-dev.properties
+**/application-prod.yml
 
-
-**\application.yml
-**\application-dev.properties
-**\application-prod.yml
 ### IntelliJ IDEA ###
-**\.idea
-**\*.iws
-**\*.iml
-**\*.ipr
+**/.idea
+**/*.iws
+**/*.iml
+**/*.ipr
 
 ### NetBeans ###
-nbproject\private
+nbproject/private
 nbbuild
 dist
 nbdist
 .nb-gradle
-**\build
-!**\**\src\main\**\build
-!**\**\src\test\**\build
+**/build
+!**/src/main/**/build
+!**/src/test/**/build
 
 ### VS Code ###
-**\.vscode
+**/.vscode
 
-# flyctl launch added from .idea\.gitignore
+# flyctl launch added from .idea/.gitignore
 # Default ignored files
-.idea\shelf
-.idea\workspace.xml
+.idea/shelf
+.idea/workspace.xml
 # Environment-dependent path to Maven home directory
-.idea\mavenHomeManager.xml
+.idea/mavenHomeManager.xml
+
+# Fly.io
 fly.toml
