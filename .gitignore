@@ -36,3 +36,8 @@ deploy.ps1
 .env
 ### VS Code ###
 .vscode/
+/fly.toml
+/mvnw
+/.env
+/deploy.ps1
+/*.env
