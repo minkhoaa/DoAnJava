@@ -21,7 +21,9 @@ application-prod.yml
 *.iws
 *.iml
 *.ipr
-
+docker-compose.yml
+deploy.ps1
+.env
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
