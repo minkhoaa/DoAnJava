@@ -1,9 +1,13 @@
 package com.example.demo.dto.response;
 
 import com.example.demo.dto.request.NhanVienDto;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class DanhGiaDto {
     private Long id;
     private Integer diemSo;

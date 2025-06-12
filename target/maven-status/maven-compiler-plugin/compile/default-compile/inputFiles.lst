@@ -7,6 +7,7 @@ C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\Ch
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\DanhGiaController.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\HopDongController.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\LuongController.java
+C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\NewDanhGiaController.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\NhanVienController.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\PhongBanController.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\TrinhDoController.java
@@ -32,6 +33,7 @@ C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\T
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\TuyenDungInputDto.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\response\ApiResponse.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\response\AuthenticationResponse.java
+C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\response\DanhGiaDto.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\response\UserResponse.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\entity\BaoHiem.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\entity\BoPhan.java

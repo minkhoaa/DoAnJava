@@ -28,6 +28,7 @@ com\example\demo\controller\HopDongController.class
 com\example\demo\service\BaoHiemService.class
 com\example\demo\service\UserDetailsServiceImpl.class
 com\example\demo\dto\request\RegisterRequest.class
+com\example\demo\security\SecurityConfig$1.class
 com\example\demo\service\PhongBanService.class
 com\example\demo\entity\TrinhDo.class
 com\example\demo\dto\request\BaoHiemDto.class
@@ -57,12 +58,14 @@ com\example\demo\service\CustomUserDetails.class
 com\example\demo\service\NhanVienService.class
 com\example\demo\entity\LoaiCong.class
 com\example\demo\security\SecurityConfig.class
+com\example\demo\dto\response\DanhGiaDto.class
 com\example\demo\entity\BoPhan.class
 com\example\demo\repository\BoPhanRepository.class
 com\example\demo\dto\request\HopDongDto.class
 com\example\demo\service\AuthService.class
 com\example\demo\dto\request\TrinhDoDto.class
 com\example\demo\entity\ChucVu.class
+com\example\demo\controller\NewDanhGiaController.class
 com\example\demo\dto\request\TokenRequest.class
 com\example\demo\controller\NhanVienController.class
 com\example\demo\repository\RoleRepository.class

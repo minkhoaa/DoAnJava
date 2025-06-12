@@ -1,11 +1,14 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.example.demo.dto.request.TokenRequest;
 import com.example.demo.dto.response.UserResponse;
+import org.aspectj.weaver.patterns.ExactTypePattern;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +27,7 @@ import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -39,25 +43,30 @@ public class AuthService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is already in use");
         }
 
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPasswordhash(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
-
         // Liên kết với nhân viên
-        NhanVien employee = nhanVienRepository.findById(request.getEmployeeId())
-            .orElseThrow(() -> new RuntimeException("Employee not found"));
-        user.setEmployee(employee);
-
+        NhanVien nhanVien = new NhanVien();
+        nhanVien.setHoten(request.getFirstName() + " " + request.getLastName());
+        nhanVien.setDienthoai(request.getPhoneNumber());
+        nhanVien.setNgaysinh(LocalDate.of(1970,1,1));
+        nhanVienRepository.save(nhanVien);
+        user.setEmployee(nhanVien);
+        userRepository.save(user);
         // Gán quyền
-        Set<String> roleNames = request.getRoles(); 
-        Set<Role> roles = roleNames.stream()
-            .map(roleName -> roleRepository.findByRolename(roleName)
-                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName)))
-            .collect(Collectors.toSet());
+        Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepository.findByRolename("User")
+                .orElseGet(() -> {
+                    Role newRole = new Role();
+                    newRole.setRolename("User");
+                    return roleRepository.save(newRole);
+                });
+        roles.add(userRole);
         user.setRoles(roles);
 
         userRepository.save(user);

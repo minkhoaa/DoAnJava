@@ -6,13 +6,11 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
-import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-
-
 @Configuration
 @OpenAPIDefinition(
         info = @Info(title = "Java Project Api", version = "v1"),
@@ -24,6 +22,17 @@ import org.springframework.context.annotation.Configuration;
         scheme = "Bearer",
         bearerFormat = "JWT"
 )
-public class SwaggerConfiguration {
 
+public class SwaggerConfiguration {
+        @Value("${swagger.server-url:}")
+        private String swaggerServerUrl;
+
+        @Bean
+        public OpenAPI customOpenAPI() {
+                String serverUrl = swaggerServerUrl;
+                if (serverUrl == null || serverUrl.isEmpty()) {
+                        serverUrl = "http://localhost:8080";
+                }
+                return new OpenAPI().addServersItem(new Server().url(serverUrl));
+        }
 }

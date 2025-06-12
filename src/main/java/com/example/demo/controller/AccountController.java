@@ -23,7 +23,7 @@ public class AccountController {
     }
 
   @GetMapping("/getAll")
-  @PreAuthorize("hasRole('USER')")
+  @PreAuthorize("hasRole('ADMIN')")
   public List<User> getAll() {
       return repo.findAll();
   }

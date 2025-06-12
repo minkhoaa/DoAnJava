@@ -39,10 +39,25 @@
             final String jwt;
             final String username;
             String path = request.getServletPath();
-            if (path.startsWith("/api/auth")) {
+
+            // ✅ Các route public không cần JWT
+            List<String> publicPaths = List.of(
+                    "/api/auth",
+                    "/api/auth/",
+                    "/v3/api-docs",
+                    "/v3/api-docs/",
+                    "/swagger-ui",
+                    "/swagger-ui/",
+                    "/swagger-ui.html"
+            );
+
+            // ✅ Nếu là route công khai thì bỏ qua filter
+            if (publicPaths.stream().anyMatch(path::startsWith)) {
                 filterChain.doFilter(request, response);
                 return;
             }
+
+            // ❌ Không có Bearer token
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
@@ -53,30 +68,28 @@
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-
                 var userDetails = userDetailsService.loadUserByUsername(username);
-                 if (jwtService.isTokenValid(jwt, userDetails)) {
-            // 🟡 Trích roles từ token
-            List<String> roles = jwtService.extractClaim(jwt, claims -> {
-                List<?> rawRoles = claims.get("roles", List.class);
-                return rawRoles.stream()
-                        .filter(String.class::isInstance)
-                        .map(String.class::cast)
-                        .collect(Collectors.toList());
-            });
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    // Trích roles từ token
+                    List<String> roles = jwtService.extractClaim(jwt, claims -> {
+                        List<?> rawRoles = claims.get("roles", List.class);
+                        return rawRoles.stream()
+                                .filter(String.class::isInstance)
+                                .map(String.class::cast)
+                                .collect(Collectors.toList());
+                    });
 
-                    // 🟡 Convert thành GrantedAuthority
-                     List<GrantedAuthority> authorities = roles.stream()
-                             .map(role -> {
-                                 String formattedRole = role.toUpperCase(); // "ADMIN"
-                                 if (!formattedRole.startsWith("ROLE_")) {
-                                     formattedRole = "ROLE_" + formattedRole;
-                                 }
-                                 return new SimpleGrantedAuthority(formattedRole);
-                             })
-                             .collect(Collectors.toList());
+                    // Convert thành GrantedAuthority
+                    List<GrantedAuthority> authorities = roles.stream()
+                            .map(role -> {
+                                String formattedRole = role.toUpperCase();
+                                if (!formattedRole.startsWith("ROLE_")) {
+                                    formattedRole = "ROLE_" + formattedRole;
+                                }
+                                return new SimpleGrantedAuthority(formattedRole);
+                            })
+                            .collect(Collectors.toList());
 
-                    // 🔐 Tạo token auth kèm roles
                     var authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
@@ -85,11 +98,9 @@
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
-
-
-
             }
 
             filterChain.doFilter(request, response);
         }
+
     }

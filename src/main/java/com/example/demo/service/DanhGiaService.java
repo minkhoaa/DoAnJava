@@ -1,10 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.request.AddDanhGiaDto;
+import com.example.demo.dto.request.ChucVuDto;
 import com.example.demo.dto.request.NhanVienDto;
 import com.example.demo.dto.response.DanhGiaDto;
-import com.example.demo.entity.DanhGia;
-import com.example.demo.entity.NhanVien;
+import com.example.demo.entity.*;
 import com.example.demo.repository.DanhGiaRepository;
 import com.example.demo.repository.NhanVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.request.TrinhDoDto;
 import com.example.demo.dto.response.ApiResponse;
-import com.example.demo.entity.TrinhDo;
 import com.example.demo.repository.TrinhDoRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Service
@@ -26,14 +28,40 @@ public class DanhGiaService {
     private NhanVienRepository nhanVienRepository;
 
     public ApiResponse getAllDanhGia() {
-        DanhGiaDto response = new DanhGiaDto();
-        DanhGia danhGia = new DanhGia();
-        response.setId(danhGia.getId());
-        response.setKy(danhGia.getKy());
-        response.setNam(danhGia.getNam());
-        response.setNhanXet(danhGia.getNhanXet());
-        NhanVien nhanVienDto = danhGia.getNhanVien();
-        response.setNhanVien(null);
+        List<DanhGia> danhGiaList = danhGiaRepository.findAll();
+        List<DanhGiaDto> response = danhGiaList.stream().map(c -> {
+            NhanVien nv = c.getNhanVien();
+            NhanVienDto nvDto = null;
+            PhongBan phongBan = nv.getPhongBan();
+            ChucVu chucVu = nv.getChucVu();
+            TrinhDo trinhDo = nv.getTrinhDo();
+            Long idcv = chucVu != null ? chucVu.getId() : null;
+            String tenChucVu = chucVu != null ? chucVu.getName() : null;
+            Long idpb = phongBan != null ? phongBan.getId() : null;
+            String tenPhongBan = phongBan != null ? phongBan.getName() : null;
+            Long idtd = trinhDo != null ? trinhDo.getId() : null;
+            String tenTrinhDo = trinhDo != null ? trinhDo.getName() : null;
+            if (nv != null) {
+                nvDto = new NhanVienDto(
+                        nv.getId(),
+                        nv.getHoten(),
+                        nv.getGioitinh(),
+                        nv.getNgaysinh(),
+                        nv.getDienthoai(),
+                        nv.getCccd(),
+                        nv.getDiachi(),
+                        nv.getHinhanh(),
+                        nv.getChucVu().getId(),
+                        nv.getChucVu().getName(),
+                        nv.getPhongBan().getId(),
+                        nv.getPhongBan().getName(),
+                        nv.getTrinhDo().getId(),
+                        nv.getTrinhDo().getName()
+                );
+            }
+            DanhGiaDto dto = new DanhGiaDto(c.getId(), c.getDiemSo(), c.getKy(), c.getNam(),c.getNhanXet(), nvDto );
+            return dto;
+        }).collect(Collectors.toList());
         return new ApiResponse("Success", response );
     }
 

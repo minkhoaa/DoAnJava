@@ -41,16 +41,10 @@ public class AuthController {
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
-
+// luôn truyền vào hasRole('ADMIN') hoặc USER, không chứa chữ thường
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authService.login(request));
-    }
-
-    @GetMapping("/getAll")
-    @PreAuthorize("hasRole('User')")
-    public List<User> getAll() {
-        return user.findAll();
     }
 
     @PostMapping("/authentication")
@@ -61,5 +55,7 @@ public class AuthController {
         }
         return ResponseEntity.ok(result);
     }
+
+
 
 }
