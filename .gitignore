@@ -21,9 +21,7 @@ application-prod.yml
 *.iws
 *.iml
 *.ipr
-docker-compose.yml
-deploy.ps1
-.env
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -33,6 +31,8 @@ deploy.ps1
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-
+docker-compose.yml
+deploy.ps1
+.env
 ### VS Code ###
 .vscode/
