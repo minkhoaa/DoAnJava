@@ -13,4 +13,5 @@ public class UserResponse {
     private Long userid;
     private String username;
     private String email;
+    private Long employeeId;
 }

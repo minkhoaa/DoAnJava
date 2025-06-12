@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   app:
-    image: tukhoa040505/doanjava-librarymanagement:latest
+    image: tukhoa040505/doanjava-api:latest
     build: .
     ports:
       - "8080:8080"
