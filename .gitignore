@@ -1,8 +1,5 @@
 HELP.md
 
-
-
-
 ### STS ###
 .apt_generated
 .classpath
@@ -12,15 +9,16 @@ HELP.md
 .springBeans
 .sts4-cache
 application.properties
-
 application.yml
 application-dev.properties
 application-prod.yml
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
+.idea/workspace.xml
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,13 +29,40 @@ application-prod.yml
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-docker-compose.yml
-deploy.ps1
-.env
+
 ### VS Code ###
 .vscode/
-/fly.toml
-/mvnw
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vs/
+
+### Spring Boot ###
+target/
+.gradle/
+gradle-app.setting
+logs/
+*.log
+.cache/
+application-*.properties
+application-*.yml
+!application.properties  # Giữ file mẫu nếu cần
+flyway.properties
+liquibase.properties
+/test-results/
+dependency-reduced-pom.xml
+*.class
+*.jar
+*.war
+
+### Files to ignore ###
+.env
+*.env
 /.env
 /deploy.ps1
-/*.env
+/docker-compose.yml
+docker-compose.yml
+deploy.ps1
+fly.toml
+mvnw
+/deploy.ps1
