@@ -64,6 +64,48 @@ public class DanhGiaService {
         }).collect(Collectors.toList());
         return new ApiResponse("Success", response );
     }
+    public ApiResponse getDanhGiaById(Long id) {
+        Optional<DanhGia> danhGiaOpt = danhGiaRepository.findById(id);
+
+        if (danhGiaOpt.isEmpty()) {
+            return new ApiResponse("Không tìm thấy đánh giá!", null);
+        }
+
+        DanhGia c = danhGiaOpt.get();
+        NhanVien nv = c.getNhanVien();
+        NhanVienDto nvDto = null;
+
+        if (nv != null) {
+            nvDto = new NhanVienDto(
+                    nv.getId(),
+                    nv.getHoten(),
+                    nv.getGioitinh(),
+                    nv.getNgaysinh(),
+                    nv.getDienthoai(),
+                    nv.getCccd(),
+                    nv.getDiachi(),
+                    nv.getHinhanh(),
+                    nv.getChucVu() != null ? nv.getChucVu().getId() : null,
+                    nv.getChucVu() != null ? nv.getChucVu().getName() : null,
+                    nv.getPhongBan() != null ? nv.getPhongBan().getId() : null,
+                    nv.getPhongBan() != null ? nv.getPhongBan().getName() : null,
+                    nv.getTrinhDo() != null ? nv.getTrinhDo().getId() : null,
+                    nv.getTrinhDo() != null ? nv.getTrinhDo().getName() : null
+            );
+        }
+
+        DanhGiaDto dto = new DanhGiaDto(
+                c.getId(),
+                c.getDiemSo(),
+                c.getKy(),
+                c.getNam(),
+                c.getNhanXet(),
+                nvDto
+        );
+
+        return new ApiResponse("Success", dto);
+    }
+
 
     public ApiResponse addDanhGia(AddDanhGiaDto dto) {
 

@@ -18,8 +18,20 @@ public class LuongController {
     public ResponseEntity<ApiResponse> getFilteredPhieuLuong(@RequestBody PhieuLuongInputDto phieuLuongInputDto) {
         return ResponseEntity.ok(luongService.getFilteredPhieuLuong(phieuLuongInputDto));
     }
-    @PostMapping("/getAllPhieuLuong")
-    public ResponseEntity<ApiResponse> getAllPhieuLuongs(@RequestBody TokenRequest tokenRequest) {
-        return ResponseEntity.ok(luongService.getAllPhieuLuong(tokenRequest.getToken()));
+    @GetMapping("/getAllPhieuLuong")
+    public ResponseEntity<ApiResponse> getAllPhieuLuongs() {
+        return ResponseEntity.ok(luongService.getAllPhieuLuong());
+    }
+    @GetMapping("/Calculate")
+    public ResponseEntity<ApiResponse> calculateLuong(
+            @RequestParam("employeeId") Long employeeId,
+            @RequestParam("thang") Integer thang,
+            @RequestParam("nam") Integer nam
+    ) {
+        PhieuLuongInputDto dto = new PhieuLuongInputDto();
+        dto.setEmployeeId(employeeId);
+        dto.setThang(thang);
+        dto.setNam(nam);
+        return ResponseEntity.ok(luongService.calculateLuong(dto));
     }
 }

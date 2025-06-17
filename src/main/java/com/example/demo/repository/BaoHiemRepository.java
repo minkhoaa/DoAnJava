@@ -7,4 +7,5 @@ import com.example.demo.entity.BaoHiem;
 
 @Repository
 public interface BaoHiemRepository extends JpaRepository<BaoHiem, Long> {
+    BaoHiem findByNhanVien_Id(Long employeeId);
 }

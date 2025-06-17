@@ -24,4 +24,9 @@ public class DanhGiaController {
     public ResponseEntity<ApiResponse> addDanhGia(@RequestBody AddDanhGiaDto danhGiaInputDto  ) {
         return ResponseEntity.ok(danhGiaService.addDanhGia(danhGiaInputDto));
     }
+    @GetMapping("/getByNhanVien")
+    public ResponseEntity<ApiResponse> getByNhanVien(Long id) {
+        return  ResponseEntity.ok(danhGiaService.getDanhGiaById(id));
+    }
+
 }

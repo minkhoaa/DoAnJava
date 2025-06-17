@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class PhieuLuongInputDto {
-    public String token;
     public Long employeeId;
     public Integer thang;
     public Integer nam;

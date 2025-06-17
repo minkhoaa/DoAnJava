@@ -62,7 +62,6 @@ public class AuthService {
         nhanVienRepository.save(nhanVien);
         user.setEmployee(nhanVien);
         userRepository.save(user);
-        // Gán quyền
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByRolename("User")
                 .orElseGet(() -> {
