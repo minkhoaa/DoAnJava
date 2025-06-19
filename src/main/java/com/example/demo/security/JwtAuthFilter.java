@@ -34,13 +34,15 @@
                                         HttpServletResponse response,
                                         FilterChain filterChain)
                 throws ServletException, IOException {
-
+            if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+                filterChain.doFilter(request, response);
+                return;
+            }
             final String authHeader = request.getHeader("Authorization");
             final String jwt;
             final String username;
             String path = request.getServletPath();
 
-            // ✅ Các route public không cần JWT
             List<String> publicPaths = List.of(
                     "/api/auth",
                     "/api/auth/",
@@ -50,14 +52,12 @@
                     "/swagger-ui/",
                     "/swagger-ui.html"
             );
-
-            // ✅ Nếu là route công khai thì bỏ qua filter
             if (publicPaths.stream().anyMatch(path::startsWith)) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
-            // ❌ Không có Bearer token
+
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;

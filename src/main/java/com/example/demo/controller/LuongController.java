@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class LuongController {
     @Autowired
     private LuongService luongService;
-    @PostMapping("/getFilteredPhieuLuong")
-    public ResponseEntity<ApiResponse> getFilteredPhieuLuong(@RequestBody PhieuLuongInputDto phieuLuongInputDto) {
-        return ResponseEntity.ok(luongService.getFilteredPhieuLuong(phieuLuongInputDto));
-    }
+
     @GetMapping("/getAllPhieuLuong")
     public ResponseEntity<ApiResponse> getAllPhieuLuongs() {
         return ResponseEntity.ok(luongService.getAllPhieuLuong());

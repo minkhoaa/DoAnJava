@@ -41,24 +41,22 @@ public class DanhGiaService {
             String tenPhongBan = phongBan != null ? phongBan.getName() : null;
             Long idtd = trinhDo != null ? trinhDo.getId() : null;
             String tenTrinhDo = trinhDo != null ? trinhDo.getName() : null;
-            if (nv != null) {
-                nvDto = new NhanVienDto(
-                        nv.getId(),
-                        nv.getHoten(),
-                        nv.getGioitinh(),
-                        nv.getNgaysinh(),
-                        nv.getDienthoai(),
-                        nv.getCccd(),
-                        nv.getDiachi(),
-                        nv.getHinhanh(),
-                        nv.getChucVu().getId(),
-                        nv.getChucVu().getName(),
-                        nv.getPhongBan().getId(),
-                        nv.getPhongBan().getName(),
-                        nv.getTrinhDo().getId(),
-                        nv.getTrinhDo().getName()
-                );
-            }
+            nvDto = new NhanVienDto(
+                    nv.getId(),
+                    nv.getHoten(),
+                    nv.getGioitinh(),
+                    nv.getNgaysinh(),
+                    nv.getDienthoai(),
+                    nv.getCccd(),
+                    nv.getDiachi(),
+                    nv.getHinhanh(),
+                    idcv,
+                    tenChucVu,
+                    idpb,
+                    tenPhongBan,
+                    idtd,
+                    tenTrinhDo
+            );
             DanhGiaDto dto = new DanhGiaDto(c.getId(), c.getDiemSo(), c.getKy(), c.getNam(),c.getNhanXet(), nvDto );
             return dto;
         }).collect(Collectors.toList());

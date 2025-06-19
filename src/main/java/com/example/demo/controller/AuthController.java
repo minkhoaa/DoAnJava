@@ -51,19 +51,11 @@ public class AuthController {
     }
     @GetMapping("/api/auth/getcurrentUserInfor")
     public ApiResponse getNhanVienFromToken() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attr != null) {
-            String authHeader = attr.getRequest().getHeader("Authorization");
-            if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                String token = authHeader.substring(7);
-                UserResponse user = authService.authenticate(new TokenRequest(token));
-                if (user != null) {
-                    return new ApiResponse("success", user);
-                }
-                return new ApiResponse("fail", "Token is invalid");
-            }
+        var result = authService.getCurrentUserInfo();
+        if (result == null) {
+            return new ApiResponse("error", "Not found");
         }
-        return new ApiResponse("fail", "Token is missing");
+        return new ApiResponse("success", result);
     }
 
 

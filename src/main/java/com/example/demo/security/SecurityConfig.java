@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -37,7 +39,8 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
     private final AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
-
+    @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -65,13 +68,15 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/oauth2/**",                  // 👈 Rất quan trọng! Cho phép OAuth2 endpoint
+                                "/oauth2/**",
                                 "/login/oauth2/**"
                         ).permitAll()
                         .anyRequest().authenticated()
+                ).exceptionHandling(exception ->
+                        exception.defaultAuthenticationEntryPointFor(customAuthenticationEntryPoint, new AntPathRequestMatcher("/api/**"))
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .successHandler(oAuth2AuthenticationSuccessHandler) // 👈 Gắn success handler
+                        .successHandler(oAuth2AuthenticationSuccessHandler) //
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
@@ -85,7 +90,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*")); // 👈 dùng setAllowedOriginPatterns thay vì addAllowedOrigin("*")
+        configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(false);
@@ -94,17 +99,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*") // Hoặc chỉ định "http://localhost:8080"
-                        .allowedMethods("*")
-                        .allowedHeaders("*")
-                        .allowCredentials(false);
-            }
-        };
-    }
+
 }

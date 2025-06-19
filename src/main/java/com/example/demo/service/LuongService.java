@@ -34,32 +34,7 @@ public class LuongService {
     @Autowired
     private BaoHiemRepository baoHiemRepository;
 
-    public ApiResponse getFilteredPhieuLuong(PhieuLuongInputDto dto) {
 
-        Long employeeId = dto.getEmployeeId();
-        Integer thang = dto.getThang();
-        Integer nam = dto.getNam();
-        List<Luong> result;
-        if (employeeId != null && thang != null && nam != null) {
-            result = luongRepository.findByNhanVien_IdAndThangAndNam(employeeId, thang, nam);
-        } else if (employeeId != null && thang != null) {
-            result = luongRepository.findByNhanVien_IdAndThang(employeeId, thang);
-        } else if (employeeId != null && nam != null) {
-            result = luongRepository.findByNhanVien_IdAndNam(employeeId, nam);
-        } else if (thang != null && nam != null) {
-            result = luongRepository.findByNamAndThang(nam, thang);
-        } else if (employeeId != null) {
-            result = luongRepository.findByNhanVien_Id(employeeId);
-        } else if (thang != null) {
-            result = luongRepository.findByThang(thang);
-        } else if (nam != null) {
-            result = luongRepository.findByNam(nam);
-        } else {
-            result = luongRepository.findAll(Sort.by(Sort.Direction.ASC, "nhanVien.id"));
-        }
-
-        return new ApiResponse("Success", result);
-    }
 
     public ApiResponse getAllPhieuLuong() {
         List<Luong> luongs = luongRepository.findAll(Sort.by(Sort.Direction.ASC, "nhanVien.id"));

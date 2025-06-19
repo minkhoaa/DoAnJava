@@ -32,6 +32,8 @@ import com.example.demo.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -126,6 +128,21 @@ public class AuthService {
 
         // Trả về AuthenticationResponse với token đã được xử lý
         return new UserResponse(user.getUserid(),user.getUsername(),user.getEmail(), user.getEmployee().getId());
+    }
+    public ApiResponse getCurrentUserInfo() {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attr != null) {
+            String authHeader = attr.getRequest().getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                UserResponse user = authenticate(new TokenRequest(token));
+                if (user != null) {
+                    return new ApiResponse("success", user);
+                }
+                return new ApiResponse("Token is invalid", null);
+            }
+        }
+        return new ApiResponse("Token is missed", null);
     }
 
 

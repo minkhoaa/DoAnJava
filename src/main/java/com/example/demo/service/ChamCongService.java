@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.request.CheckIn_OutDto;
 import com.example.demo.dto.request.ModifiedCheckIn_OutDto;
 import com.example.demo.dto.request.TokenRequest;
 import com.example.demo.dto.response.ApiResponse;
@@ -51,32 +50,34 @@ public class ChamCongService  {
 			return new ApiResponse("", chamCongRepository.findAll());
 	}
 
-	public ApiResponse checkIn(CheckIn_OutDto dto) {
-		UserResponse authen = authService.authenticate(new TokenRequest(dto.getToken()));
-		if (authen == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
-
-		NhanVien nhanVien = nhanVienRepository.findById(dto.getEmployeeId()).orElse(null);
+	public ApiResponse checkIn() {
+		ApiResponse response = authService.getCurrentUserInfo();
+		if (response.getData() == null) return new ApiResponse("Không tìm thấy thông tin nhân viên", null);
+		UserResponse user = (UserResponse) response.getData();
+		Long employeeId = user.getEmployeeId();
+		NhanVien nhanVien = nhanVienRepository.findById(employeeId).orElse(null);
 		if (nhanVien == null) return new ApiResponse("Not Found", null);
 
 		LocalDate today = LocalDate.now();
-		if (!chamCongRepository.findByNgayAndEmployeeId(today, dto.getEmployeeId()).isEmpty()) {
+		if (!chamCongRepository.findByNgayAndEmployeeId(today, employeeId).isEmpty()) {
 			return new ApiResponse("Đã check-in hôm nay", null);
 		}
 
 		ChamCong chamCong = new ChamCong();
-		chamCong.setEmployeeId(dto.getEmployeeId());
+		chamCong.setEmployeeId(employeeId);
 		chamCong.setNgay(today);
 		chamCong.setGioVao(LocalTime.now());
 
 		chamCongRepository.save(chamCong);
 		return new ApiResponse("Check-in thành công", chamCong);
 	}
-	public ApiResponse checkOut(CheckIn_OutDto dto) {
-		UserResponse authen = authService.authenticate(new TokenRequest(dto.getToken()));
-		if (authen == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
-
+	public ApiResponse checkOut() {
+		ApiResponse response = authService.getCurrentUserInfo();
+		if (response.getData() == null) return new ApiResponse("Không tìm thấy thông tin nhân viên", null);
+		UserResponse user = (UserResponse) response.getData();
+		Long employeeId = user.getEmployeeId();
 		LocalDate today = LocalDate.now();
-		ChamCong chamCong = chamCongRepository.findByNgayAndEmployeeId(today, dto.getEmployeeId()).stream().findFirst().orElse(null);
+		ChamCong chamCong = chamCongRepository.findByNgayAndEmployeeId(today, employeeId).stream().findFirst().orElse(null);
 
 		if (chamCong == null) return new ApiResponse("Chưa check-in", null);
 		if (chamCong.getGioRa() != null) return new ApiResponse("Đã check-out rồi", null);
