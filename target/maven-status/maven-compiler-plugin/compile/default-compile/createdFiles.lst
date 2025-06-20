@@ -14,6 +14,7 @@ com\example\demo\dto\request\CandidateByJobIdDto.class
 com\example\demo\controller\AuthController.class
 com\example\demo\dto\response\AuthenticationResponse.class
 com\example\demo\controller\ChamCongController.class
+com\example\demo\service\OAuth2AuthenticationSuccessHandler.class
 com\example\demo\controller\BoPhanController.class
 com\example\demo\repository\BaoHiemRepository.class
 com\example\demo\dto\request\AuthenticationRequest.class
@@ -28,11 +29,11 @@ com\example\demo\controller\HopDongController.class
 com\example\demo\service\BaoHiemService.class
 com\example\demo\service\UserDetailsServiceImpl.class
 com\example\demo\dto\request\RegisterRequest.class
-com\example\demo\security\SecurityConfig$1.class
 com\example\demo\service\PhongBanService.class
 com\example\demo\entity\TrinhDo.class
 com\example\demo\dto\request\BaoHiemDto.class
 com\example\demo\dto\request\ChamCongDto.class
+com\example\demo\service\CloudinaryService.class
 com\example\demo\dto\request\DanhGiaInputDto.class
 com\example\demo\entity\ChamCong.class
 com\example\demo\entity\TuyenDung.class
@@ -40,15 +41,16 @@ com\example\demo\controller\DanhGiaController.class
 com\example\demo\DemoApplication.class
 com\example\demo\controller\AccountController.class
 com\example\demo\entity\User.class
+com\example\demo\controller\CloudinaryController.class
 com\example\demo\entity\DanhGia.class
 com\example\demo\service\LuongService.class
 com\example\demo\entity\BaoHiem.class
 com\example\demo\repository\NhanVienRepository.class
+com\example\demo\security\CloudinaryConfig.class
 com\example\demo\service\ChamCongService.class
 com\example\demo\repository\LuongRepository.class
 com\example\demo\dto\request\AddDanhGiaDto.class
 com\example\demo\repository\PhongBanRepository.class
-com\example\demo\dto\request\CheckIn_OutDto.class
 com\example\demo\controller\BaoHiemController.class
 com\example\demo\repository\UserRepository.class
 com\example\demo\service\ChucVuService.class
@@ -62,6 +64,7 @@ com\example\demo\dto\response\DanhGiaDto.class
 com\example\demo\entity\BoPhan.class
 com\example\demo\repository\BoPhanRepository.class
 com\example\demo\dto\request\HopDongDto.class
+com\example\demo\dto\response\LuongDto.class
 com\example\demo\service\AuthService.class
 com\example\demo\dto\request\TrinhDoDto.class
 com\example\demo\entity\ChucVu.class
@@ -78,6 +81,7 @@ com\example\demo\dto\response\UserResponse.class
 com\example\demo\exception\NhanVienNotFoundException.class
 com\example\demo\dto\request\TuyenDungInputDto.class
 com\example\demo\controller\TuyenDungController.class
+com\example\demo\security\CustomAuthenticationEntryPoint.class
 com\example\demo\dto\request\BoPhanDto.class
 com\example\demo\repository\ChamCongRepository.class
 com\example\demo\repository\TrinhDoRepository.class

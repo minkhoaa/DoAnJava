@@ -4,6 +4,7 @@ C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\Ba
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\BoPhanController.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\ChamCongController.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\ChucVuController.java
+C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\CloudinaryController.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\DanhGiaController.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\HopDongController.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\controller\LuongController.java
@@ -19,7 +20,6 @@ C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\B
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\BoPhanDto.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\CandidateByJobIdDto.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\ChamCongDto.java
-C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\CheckIn_OutDto.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\ChucVuDto.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\DanhGiaInputDto.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\HopDongDto.java
@@ -34,6 +34,7 @@ C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\request\T
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\response\ApiResponse.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\response\AuthenticationResponse.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\response\DanhGiaDto.java
+C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\response\LuongDto.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\dto\response\UserResponse.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\entity\BaoHiem.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\entity\BoPhan.java
@@ -64,6 +65,8 @@ C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\repository\Ro
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\repository\TrinhDoRepository.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\repository\TuyenDungRepository.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\repository\UserRepository.java
+C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\security\CloudinaryConfig.java
+C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\security\CustomAuthenticationEntryPoint.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\security\JwtAuthFilter.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\security\SecurityConfig.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\security\SwaggerConfiguration.java
@@ -72,12 +75,14 @@ C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\BaoHi
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\BoPhanService.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\ChamCongService.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\ChucVuService.java
+C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\CloudinaryService.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\CustomUserDetails.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\DanhGiaService.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\HopDongService.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\JwtService.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\LuongService.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\NhanVienService.java
+C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\OAuth2AuthenticationSuccessHandler.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\PhongBanService.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\TrinhDoService.java
 C:\Users\Khoa\Desktop\Java\DoAnJava\src\main\java\com\example\demo\service\TuyenDungService.java

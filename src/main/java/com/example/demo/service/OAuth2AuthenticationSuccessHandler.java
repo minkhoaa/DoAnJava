@@ -95,7 +95,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
                 + "}"
                 + "</script>"
                 + "<p>Đang xử lý đăng nhập, vui lòng chờ...</p></body></html>"
-                + "<p>Token: </p></body></html>" + jwt  ;
+                + "<p>Token: </p></body></html>";
                 ;
         response.setContentType("text/html; charset=UTF-8");
         response.getWriter().write(html);

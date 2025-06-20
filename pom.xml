@@ -37,6 +37,11 @@
 			<version>2.5.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.cloudinary</groupId>
+			<artifactId>cloudinary-http44</artifactId>
+			<version>1.36.0</version>
+		</dependency>
+		<dependency>
 			<groupId>io.github.cdimascio</groupId> <!-- ĐÚNG -->
 			<artifactId>java-dotenv</artifactId>
 			<version>5.2.2</version>
