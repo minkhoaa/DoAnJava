@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ep-wispy-lab-a1m5ewz5-pooler.ap-southeast-1.aws.neon.tech:5432/QuanLiNhanSu
+      SPRING_DATASOURCE_USERNAME: QuanLiNhanSu_owner
+      SPRING_DATASOURCE_PASSWORD: npg_eHyW49PTulQX
+      JWT_SECRET: Jtqh00v718vEzn1EJ4zshXjLyZWSCUfZ
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SWAGGER_SERVER_URL: https://doanjava-api-692954731682.asia-southeast1.run.app
+
+        # GOOGLE SECRET
+      GOOGLE__CLIENT__ID: 692954731682-ld4bbghbmbedaas7hc7pom1cfp9iokji.apps.googleusercontent.com
+      GOOGLE__CLIENT__SECRET: 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
+
+        # Cloudinary Settings
+      CLOUDINARYSETTINGS__CLOUDNAME: df41zs8il
+      CLOUDINARYSETTINGS__APIKEY: 584234559241922
+      CLOUDINARYSETTINGS__APISECRET: CSD4de91GObw2e9HXiCGWlDc6jo
+
+      JAVA_TOOL_OPTIONS: -Duser.timezone=Asia/Ho_Chi_Minh
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
