@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @Setter
 public class TuyenDungInputDto
 {
-    public String token;
     public String hoten;
     @JsonFormat(pattern = "yyyy-MM-dd")
     public LocalDate ngaysinh;

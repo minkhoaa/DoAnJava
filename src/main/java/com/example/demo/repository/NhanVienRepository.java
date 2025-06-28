@@ -10,4 +10,5 @@ import com.example.demo.entity.NhanVien;
 @Repository
 public interface NhanVienRepository extends JpaRepository<NhanVien, Long>  {
     Optional<NhanVien> findById(Long id);
+
 }

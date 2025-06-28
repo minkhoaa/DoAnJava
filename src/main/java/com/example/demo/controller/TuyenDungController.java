@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.cloudinary.Api;
 import com.example.demo.dto.request.CandidateByJobIdDto;
 import com.example.demo.dto.request.TokenRequest;
 import com.example.demo.dto.request.TuyenDungInputDto;
@@ -18,9 +19,9 @@ public class TuyenDungController {
     @Autowired
     private TuyenDungService tuyenDungService;
 
-    @PostMapping("/getAll-DangXetDuyet")
-    public ResponseEntity<ApiResponse> getAllTuyenDungDangXetDuyet( @RequestBody TokenRequest tokenRequest) {
-        return ResponseEntity.ok(tuyenDungService.getAllTuyenDungDangXetDuyet(tokenRequest));
+    @GetMapping("/getAll-DangXetDuyet")
+    public ResponseEntity<ApiResponse> getAllTuyenDungDangXetDuyet( ) {
+        return ResponseEntity.ok(tuyenDungService.getAllTuyenDungDangXetDuyet());
     }
     @PostMapping("/getAllCandidatesByJobId")
     public ResponseEntity<ApiResponse> getAllCandidatesByJobId(@RequestBody CandidateByJobIdDto dto) {
@@ -32,6 +33,10 @@ public class TuyenDungController {
     public ResponseEntity<ApiResponse> postNewTuyenDung(@RequestBody TuyenDungInputDto dto) {
         return ResponseEntity.ok(tuyenDungService.addNewTuyenDung(dto));
 
+    }
+    @PostMapping("/accepttuyendung")
+    public ResponseEntity<ApiResponse> acceptTuyendung(@RequestParam Long candidateId) {
+        return ResponseEntity.ok(tuyenDungService.acceptCandidate(candidateId));
     }
 
 
