@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.entity.ChucVu;
@@ -9,18 +8,12 @@ import com.example.demo.entity.TrinhDo;
 import com.example.demo.repository.ChucVuRepository;
 import com.example.demo.repository.PhongBanRepository;
 import com.example.demo.repository.TrinhDoRepository;
-import org.aspectj.internal.lang.annotation.ajcPrivileged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import com.example.demo.controller.NhanVienController;
-import com.example.demo.dto.request.NhanVienDto;
+import com.example.demo.dto.response.NhanVienDto;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.entity.NhanVien;
-import com.example.demo.exception.NhanVienNotFoundException;
 import com.example.demo.repository.NhanVienRepository;
-
-import jakarta.websocket.server.ServerEndpoint;
 
 @Service
 public class NhanVienService {

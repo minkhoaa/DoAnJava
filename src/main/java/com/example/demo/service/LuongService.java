@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,42 +60,69 @@ public class LuongService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing input");
         }
 
-        List<ChamCong> chamCongList =
-                chamCongRepository.findByEmployeeIdAndThangAndNam(dto.getEmployeeId(), dto.getThang(), dto.getNam());
-
-        double donGiaPhuCapMoiGio = 50000;
-        double tongSoGioLam = 0;
-        BigDecimal total = BigDecimal.ZERO;
-        for (ChamCong c : chamCongList) {
-            double heSo = 1.0;
-            for (LoaiCong lc : loaiCongRepository.findByMachamcong(c.getId())) {
-                if (lc.getHeSo() != null) {
-                    heSo = lc.getHeSo();
-                    break;
-                }
-            }
-            double hours = c.getSoGioLam() != null ? c.getSoGioLam() : 0;
-            tongSoGioLam += hours;
-            BigDecimal salary = BigDecimal.valueOf(hours).multiply(BigDecimal.valueOf(1000000)).multiply(BigDecimal.valueOf(heSo));
-            total = total.add(salary);
+        // Lấy thông tin nhân viên
+        NhanVien nv = nhanVienRepository.findById(dto.getEmployeeId()).orElse(null);
+        if (nv == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Không tìm thấy nhân viên");
         }
 
-        // Tính phụ cấp theo tổng số giờ làm việc
-        BigDecimal phuCap = BigDecimal.valueOf(tongSoGioLam * donGiaPhuCapMoiGio);
+        String chucVu = nv.getChucVu().getName().trim();
 
-        // Tính bảo hiểm, ví dụ 8% lương cơ bản
-        BigDecimal baoHiem = total.multiply(BigDecimal.valueOf(0.08));
+        BigDecimal luongCung;
+        switch (chucVu) {
+            case "Giám đốc":
+                luongCung = BigDecimal.valueOf(20000000);
+                break;
+            case "Trưởng phòng":
+                luongCung = BigDecimal.valueOf(10000000);
+                break;
+            case "Kế toán":
+                luongCung = BigDecimal.valueOf(8000000);
+                break;
+            default: // Nhân viên và các chức vụ khác
+                luongCung = BigDecimal.valueOf(6000000);
+        }
 
-        // Tổng thu nhập thực
-        BigDecimal thuNhapThuc = total.add(phuCap).subtract(baoHiem);
+        int soNgayCongTieuChuan = 26;
+        int soNgayLam = 0;
+        int soNgayThieuCong = 0;
 
-        NhanVien nv = nhanVienRepository.findById(dto.getEmployeeId()).orElse(null);
+        List<ChamCong> chamCongList = chamCongRepository.findByEmployeeIdAndThangAndNam(
+                dto.getEmployeeId(), dto.getThang(), dto.getNam());
 
+        for (ChamCong c : chamCongList) {
+            soNgayLam++;
+            LoaiCong loaiCong = loaiCongRepository.findByMachamcong(c.getId());
+            String tenLoaiCong = loaiCong != null && loaiCong.getTenLc() != null ? loaiCong.getTenLc().trim() : "";
+            if ("Làm thiếu giờ".equalsIgnoreCase(tenLoaiCong)) {
+                soNgayThieuCong++;
+            }
+        }
+
+        BigDecimal tongPhat = BigDecimal.valueOf(soNgayThieuCong * 100000);
+        BigDecimal phuCap = BigDecimal.valueOf(soNgayLam * 100000);
+
+        // Tất cả chức vụ đều phải đủ công mới nhận full lương cứng, thiếu thì chia theo ngày thực tế
+        BigDecimal tongLuongCoBan;
+        if (soNgayLam >= soNgayCongTieuChuan) {
+            tongLuongCoBan = luongCung;
+        } else {
+            tongLuongCoBan = luongCung
+                    .divide(BigDecimal.valueOf(soNgayCongTieuChuan), 2, RoundingMode.HALF_UP)
+                    .multiply(BigDecimal.valueOf(soNgayLam));
+        }
+
+        BigDecimal tongLuongTruocBH = tongLuongCoBan.subtract(tongPhat);
+        BigDecimal baoHiem = luongCung.multiply(BigDecimal.valueOf(0.08));
+        BigDecimal thuNhapThuc = tongLuongTruocBH.add(phuCap).subtract(baoHiem);
+        if (thuNhapThuc.compareTo(BigDecimal.ZERO) < 0) {
+            thuNhapThuc = BigDecimal.ZERO;
+        }
         Luong luong = new Luong();
         luong.setNhanVien(nv);
         luong.setThang(dto.getThang());
         luong.setNam(dto.getNam());
-        luong.setLuongCoBan(total);
+        luong.setLuongCoBan(tongLuongCoBan);
         luong.setPhuCap(phuCap);
         luong.setBaoHiem(baoHiem);
         luong.setThuNhapThuc(thuNhapThuc);
@@ -102,8 +130,8 @@ public class LuongService {
 
         LuongDto luongDto = new LuongDto(
                 luong.getLuongId(),
-                nv != null ? nv.getId() : null,
-                nv != null ? nv.getHoten() : null,
+                nv.getId(),
+                nv.getHoten(),
                 luong.getThang(),
                 luong.getNam(),
                 luong.getLuongCoBan(),

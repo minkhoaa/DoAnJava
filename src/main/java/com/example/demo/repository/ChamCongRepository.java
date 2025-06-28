@@ -16,6 +16,7 @@ public interface ChamCongRepository extends JpaRepository<ChamCong, Object>{
 
     List<ChamCong> findByNgay(LocalDate ngay);
 
+    ChamCong findByEmployeeIdAndNgay(Long employeeId, LocalDate ngay);
     List<ChamCong> findByEmployeeId(Long employeeId);
 
     @Query("SELECT c FROM ChamCong c WHERE EXTRACT(MONTH FROM c.ngay) = :thang AND EXTRACT(YEAR FROM c.ngay) = :nam AND c.employeeId = :employeeId")

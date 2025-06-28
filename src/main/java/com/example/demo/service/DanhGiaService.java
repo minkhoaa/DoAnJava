@@ -1,8 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.request.AddDanhGiaDto;
-import com.example.demo.dto.request.ChucVuDto;
-import com.example.demo.dto.request.NhanVienDto;
+import com.example.demo.dto.response.NhanVienDto;
 import com.example.demo.dto.response.DanhGiaDto;
 import com.example.demo.entity.*;
 import com.example.demo.repository.DanhGiaRepository;
@@ -10,15 +9,11 @@ import com.example.demo.repository.NhanVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.request.TrinhDoDto;
 import com.example.demo.dto.response.ApiResponse;
-import com.example.demo.repository.TrinhDoRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Service
 public class DanhGiaService {
