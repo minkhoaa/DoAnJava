@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.dto.request.AddNghiViecDto;
+import com.example.demo.dto.response.DeclineNghiviec;
 import com.example.demo.dto.response.NghiViecDto;
 import com.example.demo.dto.response.UserResponse;
 import com.example.demo.repository.NghiViecRepository;
@@ -55,4 +56,8 @@ public class NghiViecController {
         return nghiViecService.approveNghiViec(nghiViecId);
     }
 
+    @PostMapping("/decline")
+    public DeclineNghiviec  declineNghiviec(Long nghiViecId, String lido) {
+        return  nghiViecService.declineNghiViec(nghiViecId,lido);
+    }
 }

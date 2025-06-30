@@ -32,4 +32,6 @@ public class NghiViec {
 
     @Column(name = "quyetdinh")
     private String quyetDinh;
+    @Column(name = "lido")
+    private String LydoTuChoi;
 }
